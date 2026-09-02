@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-5919bafb-9728-4cae-9034-0463c9974319/styles.css">
+<script src="_ds/organic-5919bafb-9728-4cae-9034-0463c9974319/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+  body { margin: 0; background: var(--color-bg); }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent-600); }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+
+  <header style="position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 40px;background:color-mix(in srgb, var(--color-bg) 92%, transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--color-divider)">
+    <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:12px;color:var(--color-text)">
+      <span style="display:grid;place-items:center;width:42px;height:42px;border-radius:999px;background:var(--color-accent-2-500);color:var(--color-neutral-100);font-family:var(--font-heading);font-size:19px;line-height:1">S</span>
+      <span style="display:flex;flex-direction:column;line-height:1.15">
+        <span style="font-family:var(--font-heading);font-size:19px">Stellies Hikes</span>
+        <span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-600)">and Tours</span>
+      </span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:6px">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+        <a href="#" onClick="{{ item.go }}" style="padding:9px 16px;border-radius:999px;font-size:15px;font-weight:{{ item.weight }};color:{{ item.color }};background:{{ item.bg }}" style-hover="background:var(--color-accent-100)">{{ item.label }}</a>
+      </sc-for>
+      <a href="#" onClick="{{ goBook }}" class="btn btn-primary" style="margin-left:10px;padding:10px 22px;font-size:15px">{{ ctaLabel }}</a>
+    </nav>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <main>
+      <section style="display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding:76px 40px 64px;max-width:1240px;margin:0 auto">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+          <span class="tag tag-accent-2" style="padding:7px 16px">Pniel · Paarl · Stellenbosch</span>
+          <h1 style="margin:0;font-size:66px;line-height:1.03;letter-spacing:-.5px;max-width:11ch">Walk the mountains we grew up on.</h1>
+          <p style="margin:0;max-width:46ch;font-size:19px;line-height:1.65;color:var(--color-neutral-700)">Small guided hikes through the Boland — granite domes above Paarl, fynbos ridges over Pniel, and the long green valleys behind Stellenbosch. Coffee at the start, a story at the top, and you're home by supper.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;padding-top:6px">
+            <a href="#" onClick="{{ goBook }}" class="btn btn-primary" style="padding:14px 28px;font-size:16px">{{ ctaLabel }}</a>
+            <a href="#" onClick="{{ goTours }}" class="btn btn-secondary" style="padding:14px 28px;font-size:16px">See all hikes</a>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:28px;padding-top:18px;font-size:14px;color:var(--color-neutral-600)">
+            <span>Groups of 8 or fewer</span>
+            <span>Family &amp; kid-friendly routes</span>
+            <span>Pickup in Stellenbosch</span>
+          </div>
+        </div>
+        <div style="position:relative">
+          <div style="position:absolute;left:-38px;bottom:-26px;width:150px;height:150px;border-radius:999px;background:var(--color-accent-200)"></div>
+          <div class="washed" style="position:relative;overflow:hidden;border-radius:220px 220px 28px 28px;box-shadow:var(--shadow-lg)">
+            <image-slot id="hero" shape="rect" style="width:100%;height:520px" placeholder="Drop a hero photo — a ridge above Pniel at sunrise"></image-slot>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding:16px 40px 84px;max-width:1240px;margin:0 auto">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:28px">
+          <h2 style="margin:0;font-size:40px">Three good places to start</h2>
+          <a href="#" onClick="{{ goTours }}" class="btn btn-ghost" style="font-size:16px">All hikes and tours →</a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px">
+          <sc-for list="{{ featured }}" as="t" hint-placeholder-count="3">
+            <article class="card elev-sm" style="display:flex;flex-direction:column;gap:0;padding:0;overflow:hidden;border-radius:var(--radius-lg)">
+              <div class="washed" style="height:196px">
+                <image-slot id="{{ t.slotId }}" shape="rect" style="width:100%;height:196px" placeholder="{{ t.photoHint }}"></image-slot>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;padding:24px 26px 26px">
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <span class="tag tag-outline">{{ t.difficulty }}</span>
+                  <span class="tag tag-neutral">{{ t.duration }}</span>
+                </div>
+                <h3 style="margin:0;font-size:24px;line-height:1.2">{{ t.name }}</h3>
+                <p style="margin:0;font-size:15px;line-height:1.6;color:var(--color-neutral-700)">{{ t.blurb }}</p>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:8px">
+                  <span style="font-size:15px;color:var(--color-neutral-600)">{{ t.priceLabel }}</span>
+                  <a href="#" onClick="{{ t.book }}" class="btn btn-secondary" style="padding:9px 18px;font-size:14px">Book</a>
+                </div>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="background:var(--color-surface);padding:78px 40px">
+        <div style="display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;max-width:1240px;margin:0 auto">
+          <div class="washed" style="overflow:hidden;border-radius:var(--radius-lg);box-shadow:var(--shadow-md)">
+            <image-slot id="valley" shape="rect" style="width:100%;height:380px" placeholder="Drop a photo — the valley from Botmaskop"></image-slot>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+            <h2 style="margin:0;font-size:42px;line-height:1.1;max-width:16ch">A valley that feels like a kitchen table.</h2>
+            <p style="margin:0;max-width:52ch;font-size:17px;line-height:1.7;color:var(--color-neutral-700)">We're a family outfit from Pniel. Everyone who walks with us gets the same thing: a slow start, a guide who knows which farm road to take, rusks halfway, and time to sit at the top instead of rushing the descent.</p>
+            <a href="#" onClick="{{ goAbout }}" class="btn btn-secondary" style="padding:12px 24px">Our story</a>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding:78px 40px;max-width:1240px;margin:0 auto">
+        <h2 style="margin:0 0 30px;font-size:40px">Who we walk with</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px">
+          <div class="card" style="display:flex;flex-direction:column;gap:10px;padding:30px;border-radius:var(--radius-lg)">
+            <h3 style="margin:0;font-size:22px">Visiting the Winelands</h3>
+            <p style="margin:0;font-size:15px;line-height:1.65;color:var(--color-neutral-700)">Half-day walks that end at a farm table. We handle transfers from your guesthouse and the tasting booking after.</p>
+          </div>
+          <div class="card" style="display:flex;flex-direction:column;gap:10px;padding:30px;border-radius:var(--radius-lg)">
+            <h3 style="margin:0;font-size:22px">Families with kids</h3>
+            <p style="margin:0;font-size:15px;line-height:1.65;color:var(--color-neutral-700)">Short, shaded routes with real things to find — waterfalls, tortoises, a picnic spot. Prams stay in the car; small legs are welcome.</p>
+          </div>
+          <div class="card" style="display:flex;flex-direction:column;gap:10px;padding:30px;border-radius:var(--radius-lg)">
+            <h3 style="margin:0;font-size:22px">Hikers after a hard day</h3>
+            <p style="margin:0;font-size:15px;line-height:1.65;color:var(--color-neutral-700)">Full traverses with 1 200 m of climbing, early starts and no shuttle bail-out. Bring 3 litres and decent boots.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isTours }}" hint-placeholder-val="{{ false }}">
+    <main style="padding:64px 40px 84px;max-width:1240px;margin:0 auto">
+      <h1 style="margin:0 0 14px;font-size:54px">Hikes and tours</h1>
+      <p style="margin:0 0 30px;max-width:58ch;font-size:18px;line-height:1.65;color:var(--color-neutral-700)">Every walk runs with eight people or fewer. Prices are per person and include a guide, permits, water and something to eat at the top.</p>
+      <sc-if value="{{ showFilters }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;padding-bottom:34px">
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+            <a href="#" onClick="{{ f.pick }}" style="padding:9px 20px;border-radius:999px;font-size:15px;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.color }}">{{ f.label }}</a>
+          </sc-for>
+        </div>
+      </sc-if>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:26px">
+        <sc-for list="{{ visibleTours }}" as="t" hint-placeholder-count="6">
+          <article class="card elev-sm" style="display:grid;grid-template-columns:200px 1fr;gap:0;padding:0;overflow:hidden;border-radius:var(--radius-lg)">
+            <div class="washed" style="height:100%;min-height:220px">
+              <image-slot id="{{ t.slotId }}" shape="rect" style="width:100%;height:100%" placeholder="{{ t.photoHint }}"></image-slot>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;padding:26px 28px">
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <span class="tag tag-outline">{{ t.difficulty }}</span>
+                <span class="tag tag-neutral">{{ t.duration }}</span>
+                <span class="tag tag-accent-2">{{ t.area }}</span>
+              </div>
+              <h3 style="margin:0;font-size:26px;line-height:1.15">{{ t.name }}</h3>
+              <p style="margin:0;font-size:15px;line-height:1.6;color:var(--color-neutral-700)">{{ t.blurb }}</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:12px">
+                <span style="font-size:16px;color:var(--color-neutral-700)">{{ t.priceLabel }}</span>
+                <a href="#" onClick="{{ t.book }}" class="btn btn-primary" style="padding:10px 20px;font-size:14px">{{ ctaLabel }}</a>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+    <main style="padding:64px 40px 84px;max-width:1000px;margin:0 auto">
+      <span class="tag tag-accent" style="padding:7px 16px">Since 2014</span>
+      <h1 style="margin:18px 0 22px;font-size:54px;line-height:1.06;max-width:16ch">Three generations of walking the same mountains.</h1>
+      <div class="washed" style="overflow:hidden;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);margin-bottom:38px">
+        <image-slot id="about" shape="rect" style="width:100%;height:400px" placeholder="Drop a photo of the team"></image-slot>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <p style="margin:0;font-size:18px;line-height:1.75;color:var(--color-neutral-800)">Stellies Hikes and Tours started with a father walking his kids up to the Pniel forest on Sunday afternoons, and guests from the guesthouse next door asking to come along. Twelve years later it's still the same walk, the same rusks, and mostly the same family.</p>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:var(--color-neutral-700)">We guide in English, Afrikaans and isiXhosa. Our guides are locals who know the farms, the fire seasons and which path turns to mud after rain — and we keep groups small enough that nobody walks alone at the back.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card" style="display:flex;flex-direction:column;gap:8px;padding:26px;border-radius:var(--radius-lg)">
+            <h3 style="margin:0;font-size:20px">Small groups, always</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:var(--color-neutral-700)">Eight guests maximum, two guides on anything strenuous.</p>
+          </div>
+          <div class="card" style="display:flex;flex-direction:column;gap:8px;padding:26px;border-radius:var(--radius-lg)">
+            <h3 style="margin:0;font-size:20px">Paid-up locals</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:var(--color-neutral-700)">Every guide is from Pniel, Kylemore or Stellenbosch, and gets a full share of the tip.</p>
+          </div>
+          <div class="card" style="display:flex;flex-direction:column;gap:8px;padding:26px;border-radius:var(--radius-lg)">
+            <h3 style="margin:0;font-size:20px">Fynbos first</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:var(--color-neutral-700)">We walk on-path, carry out what we carry in, and pay a levy per hiker to the local conservancy.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isBook }}" hint-placeholder-val="{{ false }}">
+    <main style="padding:64px 40px 84px;max-width:1080px;margin:0 auto">
+      <h1 style="margin:0 0 12px;font-size:52px">Book a walk</h1>
+      <p style="margin:0 0 34px;max-width:54ch;font-size:18px;line-height:1.65;color:var(--color-neutral-700)">Pick a hike and a date. We'll confirm by email within a day, with a meeting point and a kit list.</p>
+      <sc-if value="{{ booked }}" hint-placeholder-val="{{ false }}">
+        <div class="card elev-md" style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:44px;border-radius:var(--radius-lg);background:var(--color-accent-2-100)">
+          <h2 style="margin:0;font-size:34px">You're on the mountain list.</h2>
+          <p style="margin:0;font-size:17px;line-height:1.7;color:var(--color-neutral-800);max-width:52ch">{{ confirmationLine }}</p>
+          <a href="#" onClick="{{ resetBooking }}" class="btn btn-secondary" style="padding:12px 24px">Book another walk</a>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notBooked }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:start">
+          <form onSubmit="{{ submit }}" class="card" style="display:flex;flex-direction:column;gap:20px;padding:34px;border-radius:var(--radius-lg)">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <label style="font-size:14px;font-weight:600;color:var(--color-neutral-700)">Which hike</label>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ tourChoices }}" as="c" hint-placeholder-count="6">
+                  <a href="#" onClick="{{ c.pick }}" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;border-radius:var(--radius-md);border:1px solid {{ c.border }};background:{{ c.bg }};color:var(--color-text)">
+                    <span style="display:flex;flex-direction:column;gap:3px">
+                      <span style="font-size:16px;font-weight:600">{{ c.name }}</span>
+                      <span style="font-size:13px;color:var(--color-neutral-600)">{{ c.meta }}</span>
+                    </span>
+                    <span style="font-size:15px;color:var(--color-neutral-700)">{{ c.priceLabel }}</span>
+                  </a>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div class="field" style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:600;color:var(--color-neutral-700)">Date</label>
+                <input class="input" type="date" value="{{ date }}" onChange="{{ setDate }}" style="min-height:44px;border-radius:999px;padding:8px 16px;font-size:15px">
+              </div>
+              <div class="field" style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:600;color:var(--color-neutral-700)">People</label>
+                <input class="input" type="number" min="1" max="8" value="{{ people }}" onChange="{{ setPeople }}" style="min-height:44px;border-radius:999px;padding:8px 16px;font-size:15px">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div class="field" style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:600;color:var(--color-neutral-700)">Your name</label>
+                <input class="input" type="text" placeholder="Thandi Meyer" value="{{ name }}" onChange="{{ setName }}" style="min-height:44px;border-radius:999px;padding:8px 16px;font-size:15px">
+              </div>
+              <div class="field" style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:600;color:var(--color-neutral-700)">Email</label>
+                <input class="input" type="email" placeholder="you@example.com" value="{{ email }}" onChange="{{ setEmail }}" style="min-height:44px;border-radius:999px;padding:8px 16px;font-size:15px">
+              </div>
+            </div>
+            <div class="field" style="display:flex;flex-direction:column;gap:6px">
+              <label style="font-size:14px;font-weight:600;color:var(--color-neutral-700)">Anything we should know?</label>
+              <textarea class="input" placeholder="Kids' ages, knees, dietary things, where you're staying." value="{{ notes }}" onChange="{{ setNotes }}" style="border-radius:var(--radius-md);padding:12px 16px;font-size:15px;min-height:96px"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" style="min-height:52px;font-size:17px">Request this booking</button>
+          </form>
+          <aside class="card elev-sm" style="position:sticky;top:96px;display:flex;flex-direction:column;gap:14px;padding:30px;border-radius:var(--radius-lg);background:var(--color-surface)">
+            <h3 style="margin:0;font-size:24px">{{ selectedName }}</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:var(--color-neutral-700)">{{ selectedBlurb }}</p>
+            <div style="display:flex;flex-direction:column;gap:9px;padding-top:6px;border-top:1px solid var(--color-divider)"></div>
+            <div style="display:flex;justify-content:space-between;font-size:15px"><span style="color:var(--color-neutral-600)">Difficulty</span><span>{{ selectedDifficulty }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:15px"><span style="color:var(--color-neutral-600)">On the trail</span><span>{{ selectedDuration }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:15px"><span style="color:var(--color-neutral-600)">People</span><span>{{ people }}</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid var(--color-divider)">
+              <span style="font-size:15px;color:var(--color-neutral-600)">Total</span>
+              <span style="font-family:var(--font-heading);font-size:30px">{{ total }}</span>
+            </div>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:var(--color-neutral-600)">Nothing is charged now — we confirm availability first and send a payment link.</p>
+          </aside>
+        </div>
+      </sc-if>
+    </main>
+  </sc-if>
+
+  <footer style="background:var(--color-neutral-900);color:var(--color-neutral-200);padding:56px 40px 40px">
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;max-width:1240px;margin:0 auto">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-family:var(--font-heading);font-size:24px;color:var(--color-neutral-100)">Stellies Hikes and Tours</span>
+        <p style="margin:0;max-width:38ch;font-size:15px;line-height:1.65;color:var(--color-neutral-400)">Guided walking in Pniel, Paarl and Stellenbosch. Rain or shine — mostly shine.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px">
+        <span style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-500)">Find us</span>
+        <a href="#" onClick="{{ goTours }}" style="color:var(--color-neutral-200)">Hikes and tours</a>
+        <a href="#" onClick="{{ goAbout }}" style="color:var(--color-neutral-200)">Our story</a>
+        <a href="#" onClick="{{ goBook }}" style="color:var(--color-neutral-200)">Book a walk</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:var(--color-neutral-300)">
+        <span style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-500)">Say hello</span>
+        <span>hello@stellieshikes.co.za</span>
+        <span>+27 21 000 0000</span>
+        <span>Main Road, Pniel, 7681</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showPrices&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;showFilters&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;ctaLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Book a walk&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+const TOURS = [
+  { id: 'pniel-sunrise', name: 'Pniel Ridge Sunrise', area: 'Pniel', difficulty: 'Easy–moderate', duration: '3.5 hrs', price: 450,
+    blurb: 'Up through the pines before first light for the moment the sun clears the Simonsberg. Coffee and rusks at the top.',
+    photoHint: 'Sunrise over the Pniel ridge' },
+  { id: 'botmaskop', name: 'Botmaskop Summit', area: 'Stellenbosch', difficulty: 'Moderate', duration: '4 hrs', price: 550,
+    blurb: 'The classic Stellenbosch viewpoint — a steady climb through fynbos with the whole valley laid out behind you.',
+    photoHint: 'The valley from Botmaskop' },
+  { id: 'paarl-rock', name: 'Paarl Rock & the Granite Domes', area: 'Paarl', difficulty: 'Easy', duration: '3 hrs', price: 420,
+    blurb: 'Warm granite underfoot, proteas in season, and a short scramble onto the dome for lunch with a 100 km view.',
+    photoHint: 'Granite domes above Paarl' },
+  { id: 'jonkershoek', name: 'Jonkershoek Panorama Traverse', area: 'Stellenbosch', difficulty: 'Strenuous', duration: '7 hrs', price: 850,
+    blurb: 'Seventeen kilometres and 1 000 m of climbing around the horseshoe. Early start, proper boots, three litres of water.',
+    photoHint: 'The Jonkershoek horseshoe' },
+  { id: 'village-walk', name: 'Vineyard & Village Walk', area: 'Pniel', difficulty: 'Easy', duration: '2.5 hrs', price: 320,
+    blurb: 'A gentle loop for families — farm roads, a waterfall pool for warm days, tortoises if you look properly.',
+    photoHint: 'Farm road through the vineyards' },
+  { id: 'simonsberg', name: 'Simonsberg Full Day', area: 'Paarl', difficulty: 'Strenuous', duration: '8 hrs', price: 950,
+    blurb: 'The big one. Long approach, a real summit, and the Boland spread out from Table Mountain to the Hex River peaks.',
+    photoHint: 'The Simonsberg summit ridge' }
+];
+
+class Component extends DCLogic {
+  state = { page: 'home', filter: 'All', tour: 'pniel-sunrise', date: '', people: 2, name: '', email: '', notes: '', booked: false };
+
+  go(page) {
+    return (e) => { if (e) e.preventDefault(); this.setState({ page }); window.scrollTo(0, 0); };
+  }
+
+  money(n) { return 'R' + n.toLocaleString('en-ZA'); }
+
+  renderVals() {
+    const s = this.state;
+    const showPrices = this.props.showPrices ?? true;
+    const ctaLabel = this.props.ctaLabel ?? 'Book a walk';
+    const pages = [['home', 'Home'], ['tours', 'Hikes & tours'], ['about', 'Our story']];
+
+    const decorate = (t) => ({
+      ...t,
+      slotId: 'tour-' + t.id,
+      priceLabel: showPrices ? this.money(t.price) + ' pp' : 'Enquire',
+      book: (e) => { e.preventDefault(); this.setState({ page: 'book', tour: t.id, booked: false }); window.scrollTo(0, 0); }
+    });
+
+    const filters = ['All', 'Easy', 'Moderate', 'Strenuous'].map(label => ({
+      label,
+      pick: (e) => { e.preventDefault(); this.setState({ filter: label }); },
+      bg: s.filter === label ? 'var(--color-accent)' : 'transparent',
+      color: s.filter === label ? 'var(--color-bg)' : 'var(--color-neutral-700)',
+      border: s.filter === label ? 'var(--color-accent)' : 'var(--color-divider)'
+    }));
+
+    const matches = (t) => s.filter === 'All' || t.difficulty.toLowerCase().indexOf(s.filter.toLowerCase()) === 0;
+    const sel = TOURS.find(t => t.id === s.tour) || TOURS[0];
+    const people = Math.max(1, Math.min(8, Number(s.people) || 1));
+
+    return {
+      ctaLabel,
+      showFilters: this.props.showFilters ?? true,
+      navItems: pages.map(([p, label]) => ({
+        label, go: this.go(p),
+        weight: s.page === p ? 700 : 500,
+        color: s.page === p ? 'var(--color-accent-700)' : 'var(--color-text)',
+        bg: s.page === p ? 'var(--color-accent-100)' : 'transparent'
+      })),
+      goHome: this.go('home'), goTours: this.go('tours'), goAbout: this.go('about'), goBook: this.go('book'),
+      isHome: s.page === 'home', isTours: s.page === 'tours', isAbout: s.page === 'about', isBook: s.page === 'book',
+      featured: TOURS.slice(0, 3).map(decorate),
+      visibleTours: TOURS.filter(matches).map(decorate),
+      filters,
+      tourChoices: TOURS.map(t => ({
+        name: t.name,
+        meta: t.area + ' · ' + t.duration + ' · ' + t.difficulty,
+        priceLabel: showPrices ? this.money(t.price) + ' pp' : 'Enquire',
+        bg: s.tour === t.id ? 'var(--color-accent-100)' : 'transparent',
+        border: s.tour === t.id ? 'var(--color-accent)' : 'var(--color-divider)',
+        pick: (e) => { e.preventDefault(); this.setState({ tour: t.id }); }
+      })),
+      selectedName: sel.name, selectedBlurb: sel.blurb,
+      selectedDifficulty: sel.difficulty, selectedDuration: sel.duration,
+      total: showPrices ? this.money(sel.price * people) : 'On request',
+      date: s.date, people: s.people, name: s.name, email: s.email, notes: s.notes,
+      setDate: (e) => this.setState({ date: e.target.value }),
+      setPeople: (e) => this.setState({ people: e.target.value }),
+      setName: (e) => this.setState({ name: e.target.value }),
+      setEmail: (e) => this.setState({ email: e.target.value }),
+      setNotes: (e) => this.setState({ notes: e.target.value }),
+      submit: (e) => { e.preventDefault(); this.setState({ booked: true }); window.scrollTo(0, 0); },
+      booked: s.booked, notBooked: !s.booked,
+      confirmationLine: 'We\u2019ve got you down for ' + sel.name + (s.date ? ' on ' + s.date : '') + ', ' + people + (people === 1 ? ' person' : ' people') + '. Look out for a note from us within a day — meeting point, kit list and the weather call.',
+      resetBooking: (e) => { e.preventDefault(); this.setState({ booked: false }); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
