@@ -1,0 +1,18 @@
+[
+  {
+    "id": "bk-mtscd4vz",
+    "type": "hike",
+    "itemId": "pniel-sunrise",
+    "itemName": "Pniel Ridge Sunrise",
+    "date": "2026-09-15",
+    "time": "05:30",
+    "name": "Test User",
+    "email": "test@test.com",
+    "phone": "",
+    "people": 2,
+    "notes": "",
+    "price": 900,
+    "status": "confirmed",
+    "createdAt": "2026-09-08T07:21:59.039Z"
+  }
+]
