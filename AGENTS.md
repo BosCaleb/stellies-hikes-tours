@@ -1,4 +1,28 @@
-# Stellies Hikes and Tours — Base44 Dev Notes
+# Stellies Hikes and Tours
+
+React + Vite frontend, Express API, JSON-file storage (no real DB yet).
+
+## Run it
+`npm run dev` — runs Vite (port 5173) and the Express API (port 3001)
+concurrently. Vite proxies `/api/*` to the Express server.
+
+## Architecture
+- `src/` — React app (react-router-dom v6). Routes in `src/App.jsx`.
+- `src/components/` — plain functional components, plain CSS (`src/styles.css`,
+  no Tailwind/CSS framework).
+- `src/vue/BookingCalendar.vue` — the ONE Vue component in the app, wrapped
+  by `src/components/VueCalendar.jsx`. Don't rewrite this to React unless
+  asked — it's intentionally embedded via @vitejs/plugin-vue.
+- `server/index.js` — Express API. Reads/writes `server/data/*.json` as the
+  "database." Owns booking-conflict checks and availability generation.
+
+## Testing
+No test runner is set up yet. Do not assume `npm test` exists.
+
+## Data model gotchas
+- Bookings are matched by `itemId` + `date` + `time`; double-booking
+  prevention lives entirely in server/index.js — any change to booking
+  logic needs to preserve that check.
 
 ## What this project is
 A static single-page marketing site for "Stellies Hikes and Tours" (guided hikes in the Boland, South Africa). No backend, no database, no build step.

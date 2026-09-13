@@ -12,10 +12,10 @@ export default function Footer() {
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <span style={{ fontFamily: 'var(--font-heading)', fontSize: 24, color: 'var(--color-neutral-100)' }}>
-            Stellenbosch Adventures and Tours
+            Stellenbosch Adventures
           </span>
           <p style={{ margin: 0, maxWidth: '38ch', fontSize: 15, lineHeight: 1.65, color: 'var(--color-neutral-400)' }}>
-            Guided hiking and tours in Pniel, Paarl and Stellenbosch. Rain or shine — mostly shine.
+            Guided hikes and tours in Pniel, Paarl and Stellenbosch — small groups, local guides, and memorable mountain days.
           </p>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 15 }}>

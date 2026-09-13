@@ -23,6 +23,41 @@ const hikes = loadJson('hikes.json', []);
 const tours = loadJson('tours.json', []);
 let bookings = loadJson('bookings.json', []);
 
+export function checkBookingConflict(bookings, { itemId, date, time }) {
+  return bookings.some(
+    b => b.itemId === itemId && b.date === date && b.time === time && b.status === 'confirmed'
+  );
+}
+
+export function getAvailableSlotsForDate({ item, dateKey, bookings }) {
+  const bookedSlots = bookings
+    .filter(b => b.itemId === item.id && b.date === dateKey && b.status === 'confirmed')
+    .map(b => b.time);
+
+  return (item.timeSlots || ['08:00', '10:00']).filter(
+    slot => !bookedSlots.includes(slot)
+  );
+}
+
+export function generateAvailability(item, bookings, today = new Date()) {
+  const safeToday = new Date(today);
+  safeToday.setHours(0, 0, 0, 0);
+  const dates = {};
+
+  for (let i = 1; i <= 30; i++) {
+    const d = new Date(safeToday);
+    d.setDate(d.getDate() + i);
+    const dow = d.getDay();
+    if (item.daysOfWeek && !item.daysOfWeek.includes(dow)) continue;
+
+    const key = d.toISOString().slice(0, 10);
+    const slots = getAvailableSlotsForDate({ item, dateKey: key, bookings });
+    if (slots.length > 0) dates[key] = slots;
+  }
+
+  return dates;
+}
+
 const app = express();
 app.use(express.json());
 
@@ -58,24 +93,7 @@ app.get('/api/availability/:type/:id', (req, res) => {
   const item = type === 'hike' ? hikes.find(h => h.id === id) : tours.find(t => t.id === id);
   if (!item) return res.status(404).json({ error: 'Not found' });
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const dates = {};
-  for (let i = 1; i <= 30; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() + i);
-    const dow = d.getDay(); // 0=Sun
-    if (item.daysOfWeek && !item.daysOfWeek.includes(dow)) continue;
-    const key = d.toISOString().slice(0, 10);
-    // Check existing bookings to reduce slot capacity
-    const bookedSlots = bookings
-      .filter(b => b.itemId === id && b.date === key && b.status === 'confirmed')
-      .map(b => b.time);
-    const slots = (item.timeSlots || ['08:00', '10:00']).filter(
-      s => !bookedSlots.includes(s)
-    );
-    if (slots.length > 0) dates[key] = slots;
-  }
+  const dates = generateAvailability(item, bookings);
   res.json({ dates });
 });
 
@@ -90,11 +108,7 @@ app.post('/api/bookings', (req, res) => {
   const item = type === 'hike' ? hikes.find(h => h.id === itemId) : tours.find(t => t.id === itemId);
   if (!item) return res.status(404).json({ error: 'Hike/tour not found' });
 
-  // Check slot availability
-  const existing = bookings.filter(
-    b => b.itemId === itemId && b.date === date && b.time === time && b.status === 'confirmed'
-  );
-  if (existing.length > 0) {
+  if (checkBookingConflict(bookings, { itemId, date, time })) {
     return res.status(409).json({ error: 'That slot is already booked' });
   }
 
@@ -112,5 +126,13 @@ app.post('/api/bookings', (req, res) => {
   res.status(201).json(booking);
 });
 
+export { app };
+
+export function startServer(port = 3001) {
+  return app.listen(port, () => console.log(`API server on http://localhost:${port}`));
+}
+
 const PORT = 3001;
-app.listen(PORT, () => console.log(`API server on http://localhost:${PORT}`));
+if (process.env.NODE_ENV !== 'test') {
+  startServer(PORT);
+}
