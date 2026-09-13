@@ -10,7 +10,8 @@ Booking site for "Stellies Hikes and Tours" (guided hikes/tours around Stellenbo
 npm install
 npm run dev          # Express API on :3001 + Vite on :5173 (proxies /api -> :3001)
 npm run server       # API only
-npm run build        # Vite build -> dist/
+npm run build        # Vite build -> dist/ (talks to the Express API)
+npm run build:static # static site for Azure Static Web Apps (no API; see Deployment)
 npm start            # node server/index.js (also serves dist/ if it exists)
 npm test             # vitest run (all tests)
 npx vitest run server/index.test.js          # single file
@@ -19,6 +20,20 @@ docker compose up --build                    # production image on http://localh
 ```
 
 No linter is configured. Requires Node 22+: `package.json` has no `"type"`, and `server/index.js` (ESM) relies on Node's module syntax detection.
+
+## Deployment
+
+There are two production targets:
+
+- **Azure Static Web Apps.** `.github/workflows/azure-static-web-apps-*.yml` deploys on every push to `main` and creates preview environments for pull requests. Static Web Apps can't run the Express API, so the workflow runs `npm run build:static` (Vite `--mode static`) and uploads `dist/`. In that mode `STATIC_SITE` in `src/api.js` is true:
+  - hikes and tours are bundled from `server/data/*.json`;
+  - calendar availability is computed in the browser with `server/availability.js`, from each schedule only, since it can't see existing bookings;
+  - `BookingPage` opens a pre-filled email to `CONTACT.email` (`src/data/contact.js`) instead of POSTing a booking.
+
+  `public/staticwebapp.config.json` rewrites unknown paths to `index.html` so deep links work.
+- **Docker** (`Dockerfile`, `docker compose up --build`) runs the full app, with the Express API and JSON-file bookings.
+
+The pure booking functions live in `server/availability.js` and are re-exported from `server/index.js`. The browser bundle imports that file, so keep it free of Node-only imports.
 
 ## Architecture
 

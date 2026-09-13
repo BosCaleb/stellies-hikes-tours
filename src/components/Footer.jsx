@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { CONTACT } from '../data/contact.js';
 import { regions } from '../data/regions.js';
 import Icon from './Icon.jsx';
 
@@ -46,15 +47,15 @@ export default function Footer() {
           <ul className="site-footer__list site-footer__contact">
             <li>
               <Icon name="mail" size={16} />
-              <a href="mailto:hello@stellenboschadventures.co.za">hello@stellenboschadventures.co.za</a>
+              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
             </li>
             <li>
               <Icon name="phone" size={16} />
-              <a href="tel:+27210000000">+27 21 000 0000</a>
+              <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>
             </li>
             <li>
               <Icon name="pin" size={16} />
-              <span>Main Road, Pniel, 7681</span>
+              <span>{CONTACT.address}</span>
             </li>
           </ul>
         </div>

@@ -30,7 +30,10 @@ jobs:
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/" # App source code path
           api_location: "" # Api source code path - optional
-          output_location: "build" # Built app content directory - optional
+          output_location: "dist" # Built app content directory: Vite builds to dist/
+          # Static Web Apps can't run the Express API, so build the static site: hikes and tours are
+          # bundled from server/data and booking requests go out by email (see src/api.js).
+          app_build_command: "npm run build:static"
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:

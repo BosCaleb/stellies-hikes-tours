@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { api } from '../api.js';
+import { api, STATIC_SITE } from '../api.js';
+import { CONTACT } from '../data/contact.js';
+import { bookingRequestMailto } from '../utils/bookingEmail.js';
 import { money } from '../utils/format.js';
 import Icon from './Icon.jsx';
 import VueCalendar from './VueCalendar.jsx';
@@ -61,6 +63,26 @@ export default function BookingPage() {
       setError('Please enter your name and email.');
       return;
     }
+
+    if (STATIC_SITE) {
+      // No booking API on the static site: open a pre-filled email to the business instead.
+      const mailto = bookingRequestMailto({
+        item: selectedItem,
+        type: selectedType,
+        date: selection.date,
+        time: selection.time,
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        people,
+        notes: form.notes,
+      });
+      window.location.href = mailto;
+      setBooked({ itemName: selectedItem.name, date: selection.date, time: selection.time, people, mailto, requestOnly: true });
+      window.scrollTo(0, 0);
+      return;
+    }
+
     setSubmitting(true);
     try {
       const booking = await api.createBooking({
@@ -86,20 +108,38 @@ export default function BookingPage() {
   if (loading) return <p className="state state--page">Loading…</p>;
 
   if (booked) {
+    const peopleLabel = `${booked.people} ${booked.people === 1 ? 'person' : 'people'}`;
+
     return (
       <section className="section">
         <div className="container narrow">
           <div className="confirmation">
-            <span className="confirmation__icon"><Icon name="check" size={28} /></span>
-            <span className="eyebrow">Booking received</span>
-            <h1>You're on the mountain list.</h1>
-            <p>
-              We've got you down for <strong>{booked.itemName}</strong> on {booked.date} at {booked.time},{' '}
-              {booked.people} {booked.people === 1 ? 'person' : 'people'}. Look out for a note from us within a
-              day — meeting point, kit list and the weather call.
-            </p>
+            <span className="confirmation__icon">
+              <Icon name={booked.requestOnly ? 'mail' : 'check'} size={28} />
+            </span>
+            {booked.requestOnly ? (
+              <>
+                <span className="eyebrow">Booking request</span>
+                <h1>Almost there: send us your request.</h1>
+                <p>
+                  Your email app should have opened with a request for <strong>{booked.itemName}</strong> on{' '}
+                  {booked.date} at {booked.time}, {peopleLabel}. Send it and we'll confirm availability within a day.
+                  If nothing opened, email the same details to <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
+                </p>
+              </>
+            ) : (
+              <>
+                <span className="eyebrow">Booking received</span>
+                <h1>You're on the mountain list.</h1>
+                <p>
+                  We've got you down for <strong>{booked.itemName}</strong> on {booked.date} at {booked.time},{' '}
+                  {peopleLabel}. Look out for a note from us within a day — meeting point, kit list and the weather call.
+                </p>
+              </>
+            )}
             <div className="confirmation__actions">
-              <Link to="/" className="btn btn-primary">Back home</Link>
+              {booked.requestOnly && <a href={booked.mailto} className="btn btn-primary">Open the email again</a>}
+              <Link to="/" className={`btn ${booked.requestOnly ? 'btn-secondary' : 'btn-primary'}`}>Back home</Link>
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -170,6 +210,11 @@ export default function BookingPage() {
                   onSelected={(val) => setSelection(val)}
                 />
               </div>
+              {STATIC_SITE && (
+                <p className="form-step__note">
+                  Highlighted dates show when this walk runs. We'll confirm your spot by email before anything is booked.
+                </p>
+              )}
             </div>
 
             <div className="form-step">
@@ -206,7 +251,7 @@ export default function BookingPage() {
             {error && <div className="alert alert--error" role="alert">{error}</div>}
 
             <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={submitting}>
-              {submitting ? 'Booking…' : 'Request this booking'}
+              {submitting ? 'Booking…' : STATIC_SITE ? 'Email this booking request' : 'Request this booking'}
             </button>
           </form>
 

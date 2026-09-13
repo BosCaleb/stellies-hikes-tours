@@ -503,6 +503,7 @@ button { font: inherit; }
 .option__price { font-size: 0.9375rem; font-weight: 600; white-space: nowrap; }
 
 .calendar-panel { padding: 20px; background: var(--color-neutral-100); border: 1px solid var(--color-divider); border-radius: var(--radius-md); }
+.form-step__note { margin: 0; font-size: 0.875rem; color: var(--color-neutral-600); }
 
 .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
