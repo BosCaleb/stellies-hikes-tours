@@ -45,8 +45,8 @@
         for (let i = 0; i < startDay; i++) cells.push({ date: null });
         for (let d = 1; d <= lastDay.getDate(); d++) {
           const dateObj = new Date(year, month, d);
-          dateObj.setHours(0, 0, 0, 0);
-          const key = dateObj.toISOString().slice(0, 10);
+          // Key from the cell's own date; toISOString() would shift it back a day east of UTC.
+          const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
           const isPast = dateObj < today.value;
           const isAfterMax = dateObj > maxDate.value;
           const hasSlots = props.availability.dates && props.availability.dates[key];

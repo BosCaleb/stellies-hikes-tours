@@ -19,5 +19,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './vitest.setup.js',
+    // Run in South African time so date bugs that only appear east of UTC also fail on UTC machines.
+    env: { TZ: 'Africa/Johannesburg' },
   },
 });

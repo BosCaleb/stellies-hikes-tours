@@ -97,8 +97,9 @@ export default {
       for (let i = 0; i < startDay; i++) cells.push({ date: null });
       for (let d = 1; d <= lastDay.getDate(); d++) {
         const dateObj = new Date(year, month, d);
-        dateObj.setHours(0, 0, 0, 0);
-        const key = dateObj.toISOString().slice(0, 10);
+        // Build the key from the date shown in the cell. toISOString() converts to UTC,
+        // which turns local midnight into the previous day anywhere east of UTC (e.g. South Africa).
+        const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         const isPast = dateObj < this.today;
         const isAfterMax = dateObj > this.maxDate;
         const hasSlots = this.availability.dates && this.availability.dates[key];

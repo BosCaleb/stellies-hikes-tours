@@ -4,7 +4,10 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = join(__dirname, 'data');
+// DATA_DIR lets tests point the JSON "database" at a temporary copy instead of server/data.
+const DATA_DIR = process.env.DATA_DIR || join(__dirname, 'data');
+const DIST_DIR = join(__dirname, '..', 'dist');
+const INDEX_HTML = join(DIST_DIR, 'index.html');
 
 // Ensure data directory exists
 if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
@@ -39,15 +42,30 @@ export function getAvailableSlotsForDate({ item, dateKey, bookings }) {
   );
 }
 
+// Walks are scheduled in South African time, whatever timezone the server runs in (Docker defaults to UTC).
+const BUSINESS_TIME_ZONE = 'Africa/Johannesburg';
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+// Calendar date of `date` in the business timezone, as numbers (month is 1-based).
+export function businessDateParts(date, timeZone = BUSINESS_TIME_ZONE) {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', { timeZone, year: 'numeric', month: 'numeric', day: 'numeric' })
+      .formatToParts(date)
+      .map(part => [part.type, part.value])
+  );
+  return { year: Number(parts.year), month: Number(parts.month), day: Number(parts.day) };
+}
+
 export function generateAvailability(item, bookings, today = new Date()) {
-  const safeToday = new Date(today);
-  safeToday.setHours(0, 0, 0, 0);
+  const { year, month, day } = businessDateParts(today);
+  const start = Date.UTC(year, month - 1, day);
   const dates = {};
 
   for (let i = 1; i <= 30; i++) {
-    const d = new Date(safeToday);
-    d.setDate(d.getDate() + i);
-    const dow = d.getDay();
+    // UTC midnight of each business-calendar day, so getUTCDay() and toISOString() both describe that day.
+    // (Local-midnight dates would shift back a day through toISOString() anywhere east of UTC.)
+    const d = new Date(start + i * DAY_MS);
+    const dow = d.getUTCDay();
     if (item.daysOfWeek && !item.daysOfWeek.includes(dow)) continue;
 
     const key = d.toISOString().slice(0, 10);
@@ -126,13 +144,24 @@ app.post('/api/bookings', (req, res) => {
   res.status(201).json(booking);
 });
 
-export { app };
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'Not found' });
+});
 
-export function startServer(port = 3001) {
-  return app.listen(port, () => console.log(`API server on http://localhost:${port}`));
+if (existsSync(INDEX_HTML)) {
+  app.use(express.static(DIST_DIR));
+
+  app.get('*', (req, res) => {
+    res.sendFile(INDEX_HTML);
+  });
 }
 
-const PORT = 3001;
+export { app };
+
+export function startServer(port = process.env.PORT || 3001, host = process.env.HOST || '0.0.0.0') {
+  return app.listen(port, host, () => console.log(`Server on http://${host}:${port}`));
+}
+
 if (process.env.NODE_ENV !== 'test') {
-  startServer(PORT);
+  startServer();
 }

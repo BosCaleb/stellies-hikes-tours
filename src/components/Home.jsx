@@ -1,148 +1,224 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api.js';
+import { regions } from '../data/regions.js';
+import ExperienceCard from './ExperienceCard.jsx';
+import Icon from './Icon.jsx';
 
-function money(n) { return 'R' + n.toLocaleString('en-ZA'); }
+const STATS = [
+  { value: '2014', label: 'Guiding since' },
+  { value: '8', label: 'Guests per group, max' },
+  { value: '4', label: 'Mountain areas' },
+  { value: '3', label: 'Languages spoken' },
+];
+
+const HIGHLIGHTS = [
+  {
+    icon: 'users',
+    title: 'Eight guests, maximum',
+    text: 'Small groups mean real conversation with your guide, and nobody walks alone at the back.',
+  },
+  {
+    icon: 'pin',
+    title: 'Guides who grew up here',
+    text: 'Our guides are from Pniel, Kylemore and Stellenbosch, and know the farms, the fire seasons and the paths.',
+  },
+  {
+    icon: 'leaf',
+    title: 'Fynbos first',
+    text: 'We walk on-path, carry out what we carry in, and pay a conservation levy for every hiker.',
+  },
+];
+
+const PACES = [
+  {
+    title: 'Easy walks',
+    text: 'Shorter routes and gentle gradients for families, first-timers and a relaxed Winelands morning.',
+    to: '/hikes?difficulty=Easy',
+    cta: 'See easy walks',
+  },
+  {
+    title: 'Moderate climbs',
+    text: 'Half-day routes with a proper climb through fynbos and a big valley view as the reward.',
+    to: '/hikes?difficulty=Moderate',
+    cta: 'See moderate hikes',
+  },
+  {
+    title: 'Strenuous days',
+    text: 'Full-day summits and traverses at a measured pace for hikers who want the challenge without the crowd.',
+    to: '/hikes?difficulty=Strenuous',
+    cta: 'See strenuous hikes',
+  },
+];
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState('loading');
 
   useEffect(() => {
     Promise.all([api.getHikes(), api.getTours()])
       .then(([hikes, tours]) => {
         setFeatured([
-          ...hikes.slice(0, 2),
-          ...tours.slice(0, 1),
+          ...hikes.slice(0, 2).map(item => ({ item, type: 'hike' })),
+          ...tours.slice(0, 1).map(item => ({ item, type: 'tour' })),
         ]);
-        setLoading(false);
+        setStatus('ready');
       })
-      .catch(() => setLoading(false));
+      .catch(() => setStatus('error'));
   }, []);
 
   return (
     <>
-      <section style={{
-        display: 'grid',
-        gridTemplateColumns: '1.08fr 0.92fr',
-        gap: 56,
-        alignItems: 'center',
-        padding: '72px 40px 56px',
-        maxWidth: 1240,
-        margin: '0 auto',
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 22 }}>
-          <span className="tag tag-accent-2" style={{ padding: '8px 16px' }}>Pniel · Paarl · Stellenbosch</span>
-          <h1 style={{ margin: 0, maxWidth: '11ch', letterSpacing: '-0.04em' }}>
-            Walk the mountains we know by heart.
-          </h1>
-          <p style={{ margin: 0, maxWidth: '46ch', fontSize: 18, lineHeight: 1.7, color: 'var(--color-neutral-700)' }}>
-            Small-group hikes and tours through the Boland — granite domes, fynbos ridges, vineyard roads and mountain views from the best seats in the valley.
+      <section className="hero">
+        <img
+          className="hero__image"
+          src="/images/mountains/hero-franschhoek-valley.jpg"
+          alt="The Franschhoek valley surrounded by mountains in the Cape Winelands"
+        />
+        <div className="hero__overlay" />
+        <div className="container hero__content">
+          <span className="eyebrow eyebrow--light">Pniel · Stellenbosch · Paarl · Franschhoek</span>
+          <h1 className="hero__title">Walk the mountains we know by heart.</h1>
+          <p className="hero__lead">
+            Small-group guided hikes and tours through the Cape Winelands: granite domes, fynbos ridges
+            and valley views from the best seats in the Boland.
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, paddingTop: 4 }}>
-            <Link to="/book" className="btn btn-primary btn-lg">Book a walk</Link>
-            <Link to="/hikes" className="btn btn-secondary btn-lg">Explore hikes</Link>
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 22, paddingTop: 12, fontSize: 14, color: 'var(--color-neutral-600)' }}>
-            <span>Small groups</span>
-            <span>Local guides</span>
-            <span>Pickup available</span>
+          <div className="hero__actions">
+            <Link to="/book" className="btn btn-light btn-lg">
+              Book a walk <Icon name="arrow-right" />
+            </Link>
+            <Link to="/hikes" className="btn btn-outline-light btn-lg">Explore hikes</Link>
           </div>
         </div>
+        <div className="container">
+          <ul className="hero__stats">
+            {STATS.map(stat => (
+              <li key={stat.label} className="hero__stat">
+                <span className="hero__stat-value">{stat.value}</span>
+                <span className="hero__stat-label">{stat.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-        <div style={{ position: 'relative' }}>
-          <div style={{
-            position: 'absolute', left: '-18px', bottom: '-18px', width: 160, height: 160,
-            borderRadius: '999px', background: 'var(--color-accent-2-200)',
-          }} />
-          <div className="washed" style={{
-            position: 'relative', overflow: 'hidden',
-            borderRadius: '220px 220px 26px 26px', boxShadow: 'var(--shadow-lg)',
-          }}>
-            <img
-              src="https://images.unsplash.com/photo-1464822759023-fed622ff22c6?auto=format&fit=crop&w=900&q=80"
-              alt="Mountain ridge above Pniel at sunrise"
-              style={{ width: '100%', height: 540, objectFit: 'cover' }}
-            />
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">Where we walk</span>
+              <h2>Four mountain areas, one local team</h2>
+              <p className="lead">
+                Small-group routes across the Boland, from Jonkershoek's peaks to the granite domes above Paarl.
+              </p>
+            </div>
+          </div>
+          <div className="region-grid">
+            {regions.map(region => (
+              <Link key={region.name} to={region.to} className="region-card">
+                <img src={region.image} alt={region.alt} loading="lazy" />
+                <div className="region-card__body">
+                  <h3 className="region-card__name">{region.name}</h3>
+                  <p className="region-card__blurb">{region.blurb}</p>
+                  <span className="region-card__link">
+                    {region.linkLabel} <Icon name="arrow-right" size={16} />
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      <section style={{ padding: '16px 40px 84px', maxWidth: 1240, margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, paddingBottom: 28, flexWrap: 'wrap' }}>
-          <h2 style={{ margin: 0 }}>Three good places to start</h2>
-          <Link to="/hikes" className="btn btn-ghost" style={{ fontSize: 16 }}>View all experiences →</Link>
-        </div>
-        <div className="grid-3">
-          {loading ? (
-            <p style={{ color: 'var(--color-neutral-600)' }}>Loading…</p>
-          ) : (
-            featured.map(item => (
-              <article key={item.id} className="card elev-sm" style={{ padding: 0, overflow: 'hidden', gap: 0 }}>
-                <div className="washed" style={{ height: 196, overflow: 'hidden' }}>
-                  <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '24px 24px 22px' }}>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                    <span className="tag tag-outline">{item.difficulty}</span>
-                    <span className="tag tag-neutral">{item.duration}</span>
-                  </div>
-                  <h3 style={{ margin: 0 }}>{item.name}</h3>
-                  <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: 'var(--color-neutral-700)' }}>{item.blurb}</p>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, paddingTop: 8 }}>
-                    <span style={{ fontSize: 15, color: 'var(--color-neutral-600)' }}>{money(item.price)} pp</span>
-                    <Link to={`/book/hike/${item.id}`} className="btn btn-secondary" style={{ padding: '10px 18px', fontSize: 14 }}>Book</Link>
-                  </div>
-                </div>
-              </article>
-            ))
+      <section className="section section--muted">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">Popular experiences</span>
+              <h2>Good places to start</h2>
+            </div>
+            <Link to="/hikes" className="link-arrow">
+              View all hikes <Icon name="arrow-right" size={16} />
+            </Link>
+          </div>
+          {status === 'loading' && <p className="state">Loading experiences…</p>}
+          {status === 'error' && (
+            <p className="state state--error">We couldn't load experiences right now. Please try again shortly.</p>
+          )}
+          {status === 'ready' && (
+            <div className="experience-grid">
+              {featured.map(({ item, type }) => (
+                <ExperienceCard key={`${type}-${item.id}`} item={item} type={type} />
+              ))}
+            </div>
           )}
         </div>
       </section>
 
-      <section style={{ background: 'rgba(255,255,255,0.24)', padding: '76px 40px' }}>
-        <div style={{
-          display: 'grid', gridTemplateColumns: '.95fr 1.05fr', gap: 52,
-          alignItems: 'center', maxWidth: 1240, margin: '0 auto',
-        }}>
-          <div className="washed" style={{ overflow: 'hidden', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)' }}>
+      <section className="section">
+        <div className="container split">
+          <div className="split__media">
             <img
-              src="https://images.unsplash.com/photo-1454496522488-7a8e488e8786?auto=format&fit=crop&w=900&q=80"
-              alt="Breathtaking valley panorama from the mountain trail"
-              style={{ width: '100%', height: 390, objectFit: 'cover' }}
+              src="/images/mountains/franschhoek-plateau.jpg"
+              alt="Fynbos on the plateau of Franschhoek's Mont Rochelle Nature Reserve"
+              loading="lazy"
             />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 18 }}>
-            <span className="tag tag-accent" style={{ padding: '8px 14px' }}>Why travellers book with us</span>
-            <h2 style={{ margin: 0, maxWidth: '14ch' }}>A local way to experience the Boland.</h2>
-            <p style={{ margin: 0, maxWidth: '54ch', fontSize: 17, lineHeight: 1.75, color: 'var(--color-neutral-700)' }}>
-              We keep things personal: early starts, warm coffee, proper mountain routes and a guide who knows exactly where to stop for a view, a story and a good lunch spot.
+          <div>
+            <span className="eyebrow">Why travellers book with us</span>
+            <h2>A local way to experience the Boland</h2>
+            <p className="lead">
+              We keep things personal: early starts, warm coffee, proper mountain routes and a guide who knows
+              exactly where to stop for a view, a story and a good lunch spot.
             </p>
-            <Link to="/about" className="btn btn-secondary" style={{ padding: '12px 22px' }}>Our story</Link>
+            <ul className="feature-list">
+              {HIGHLIGHTS.map(highlight => (
+                <li key={highlight.title} className="feature">
+                  <span className="feature__icon"><Icon name={highlight.icon} size={20} /></span>
+                  <div>
+                    <h3 className="feature__title">{highlight.title}</h3>
+                    <p className="feature__text">{highlight.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <Link to="/about" className="btn btn-secondary">Our story</Link>
           </div>
         </div>
       </section>
 
-      <section style={{ padding: '78px 40px 94px', maxWidth: 1240, margin: '0 auto' }}>
-        <h2 style={{ margin: '0 0 30px' }}>Who we walk with</h2>
-        <div className="grid-3">
-          <div className="card" style={{ gap: 10, padding: 30 }}>
-            <h3 style={{ margin: 0 }}>Winelands visitors</h3>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, color: 'var(--color-neutral-700)' }}>
-              Half-day walks and vineyard routes designed for a relaxed, memorable day out from Stellenbosch or Paarl.
-            </p>
+      <section className="section section--muted">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">Find your pace</span>
+              <h2>Walks for every kind of walker</h2>
+            </div>
           </div>
-          <div className="card" style={{ gap: 10, padding: 30 }}>
-            <h3 style={{ margin: 0 }}>Families with kids</h3>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, color: 'var(--color-neutral-700)' }}>
-              Shorter routes, local guides and plenty of time to take in the view without feeling rushed.
-            </p>
+          <div className="card-grid">
+            {PACES.map(pace => (
+              <div key={pace.title} className="card">
+                <h3>{pace.title}</h3>
+                <p>{pace.text}</p>
+                <Link to={pace.to} className="link-arrow">
+                  {pace.cta} <Icon name="arrow-right" size={16} />
+                </Link>
+              </div>
+            ))}
           </div>
-          <div className="card" style={{ gap: 10, padding: 30 }}>
-            <h3 style={{ margin: 0 }}>Serious hikers</h3>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, color: 'var(--color-neutral-700)' }}>
-              Steady climbs, full-day routes and a measured pace for guests who want the challenge without the crowd.
-            </p>
+        </div>
+      </section>
+
+      <section className="cta-band">
+        <img src="/images/mountains/simonsberg-sunset.jpg" alt="" loading="lazy" />
+        <div className="container cta-band__inner">
+          <div>
+            <h2>Ready for a mountain morning?</h2>
+            <p>Pick a route, choose a date and we'll confirm your spot with the meeting point and a simple kit list.</p>
+          </div>
+          <div className="cta-band__actions">
+            <Link to="/book" className="btn btn-light btn-lg">Book a walk</Link>
+            <Link to="/tours" className="btn btn-outline-light btn-lg">Browse tours</Link>
           </div>
         </div>
       </section>
