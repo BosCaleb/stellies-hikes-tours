@@ -1,0 +1,62 @@
+[
+  {
+    "id": "wine-estate",
+    "name": "Stellenbosch Wine Estate Tour",
+    "area": "Stellenbosch",
+    "difficulty": "Easy",
+    "duration": "4 hrs",
+    "distance": "3 km walking",
+    "elevation": "Minimal",
+    "price": 650,
+    "blurb": "Three estates, a cellar walk, and a long table lunch among the vines.",
+    "description": "A guided walk through three of Stellenbosch's historic wine estates. We start with a cellar tour and tasting at the first estate, walk the vineyard paths to the second for a mid-morning tasting, and finish with a farm-to-table lunch at the third. Transport between estates included, as are all tastings and lunch.",
+    "image": "https://images.unsplash.com/photo-1506377247377-2a5b3b132741?auto=format&fit=crop&w=800&q=80",
+    "daysOfWeek": [2, 4, 6],
+    "timeSlots": ["09:00", "10:00"]
+  },
+  {
+    "id": "pniel-heritage",
+    "name": "Pniel Heritage Walk",
+    "area": "Pniel",
+    "difficulty": "Easy",
+    "duration": "2 hrs",
+    "distance": "2 km walking",
+    "elevation": "Minimal",
+    "price": 280,
+    "blurb": "The story of a freed-slave village told through its streets, church and kitchen gardens.",
+    "description": "A gentle walking tour through the historic village of Pniel, founded by freed slaves in 1843. We visit the mission church, the old schoolhouse, and several heritage homes, with stories from the families who've been here for six generations. We finish with koeksisters and tea at the community hall.",
+    "image": "https://images.unsplash.com/photo-1564507592333-c44671d345e0?auto=format&fit=crop&w=800&q=80",
+    "daysOfWeek": [1, 3, 5, 6],
+    "timeSlots": ["09:00", "11:00", "14:00"]
+  },
+  {
+    "id": "photography-tour",
+    "name": "Cape Winelands Photography Tour",
+    "area": "Paarl",
+    "difficulty": "Easy",
+    "duration": "5 hrs",
+    "distance": "4 km walking",
+    "elevation": "Minimal",
+    "price": 750,
+    "blurb": "Golden-hour light, granite domes, vineyard rows and a guide who knows where to stand.",
+    "description": "Designed for photographers of any level. We'll take you to the best viewpoints around Paarl and Franschhoek during the best light. Your guide is a local photographer who knows the angles, the weather patterns, and the hidden spots. Bring any camera — even a phone. We'll cover composition, light, and editing basics.",
+    "image": "https://images.unsplash.com/photo-1493804714600-6edb1cb9d80f?auto=format&fit=crop&w=800&q=80",
+    "daysOfWeek": [3, 6, 0],
+    "timeSlots": ["15:00"]
+  },
+  {
+    "id": "fynbos-walk",
+    "name": "Botanical Gardens & Fynbos Walk",
+    "area": "Stellenbosch",
+    "difficulty": "Easy",
+    "duration": "3 hrs",
+    "distance": "4 km",
+    "elevation": "150 m",
+    "price": 380,
+    "blurb": "A guided walk through the richest plant kingdom on earth, with a botanist who can name every flower.",
+    "description": "The Cape Floral Kingdom is the smallest but richest on earth. We walk the Stellenbosch Botanical Garden and the adjacent fynbos trails with a guide who can name every plant, tell you which are endemic, and which the Khoi and San used for medicine. Best in spring (Sep–Nov) when the proteas and pincushions are in bloom.",
+    "image": "https://images.unsplash.com/photo-1466692476868-aef1dfb1e8c0?auto=format&fit=crop&w=800&q=80",
+    "daysOfWeek": [2, 4, 6],
+    "timeSlots": ["08:00", "10:00"]
+  }
+]

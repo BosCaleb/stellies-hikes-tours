@@ -1,0 +1,350 @@
+/* Organic Design System — earthy, natural, homey theme for Stellenbosch Adventures and Tours */
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap');
+
+:root {
+  --color-bg: #f5ead8;
+  --color-surface: #ebddc5;
+  --color-text: #201e1d;
+  --color-accent: #c67139;
+  --color-accent-2: #7a8a5e;
+  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
+
+  --color-neutral-100: #f9f4ed;
+  --color-neutral-200: #eee7db;
+  --color-neutral-300: #dcd3c4;
+  --color-neutral-400: #c0b6a5;
+  --color-neutral-500: #a19786;
+  --color-neutral-600: #82796a;
+  --color-neutral-700: #645c50;
+  --color-neutral-800: #474238;
+  --color-neutral-900: #2e2b25;
+
+  --color-accent-100: #fff2eb;
+  --color-accent-200: #ffe1d0;
+  --color-accent-300: #ffc6a5;
+  --color-accent-400: #f6a06b;
+  --color-accent-500: #d67f48;
+  --color-accent-600: #b2622d;
+  --color-accent-700: #8c491a;
+  --color-accent-800: #643312;
+  --color-accent-900: #402310;
+
+  --color-accent-2-100: #f0fae1;
+  --color-accent-2-200: #e1eecc;
+  --color-accent-2-300: #ccdbb2;
+  --color-accent-2-400: #aebf92;
+  --color-accent-2-500: #8fa073;
+  --color-accent-2-600: #728157;
+  --color-accent-2-700: #56633f;
+  --color-accent-2-800: #3d472b;
+  --color-accent-2-900: #272e1b;
+
+  --font-heading: "Caprasimo", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2e2b25 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2e2b25 22%, transparent);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--color-text); background: var(--color-bg); }
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 8px; }
+h1 { font-size: 54px; }
+h2 { font-size: 36px; }
+h3 { font-size: 24px; }
+h4 { font-size: 20px; }
+p { margin: 0 0 13px; }
+a { color: var(--color-accent-700); text-decoration: none; }
+a:hover { color: var(--color-accent-600); }
+img { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.app-main { flex: 1; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: 400;
+  font-size: 14px; line-height: 1.2; color: var(--color-text);
+  background: transparent; border: 1px solid transparent;
+  padding: 10px 22px; border-radius: 999px; transition: background 0.15s;
+}
+.btn-primary { background: var(--color-accent); color: var(--color-bg); border: none; }
+.btn-primary:hover { background: var(--color-accent-600); color: var(--color-bg); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: 4px; }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-block { width: 100%; }
+.btn-lg { padding: 14px 28px; font-size: 16px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Tags */
+.tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 4px 12px; border-radius: 999px;
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* Cards */
+.card {
+  background: var(--color-surface); border-radius: var(--radius-lg);
+  padding: 26px; display: flex; flex-direction: column; gap: 10px;
+}
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* Forms */
+.input {
+  width: 100%; min-height: 44px; padding: 8px 16px; font: inherit;
+  font-size: 15px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: 999px;
+}
+.input:focus-visible { border-color: var(--color-accent); outline: none; }
+textarea.input { border-radius: var(--radius-md); min-height: 96px; resize: vertical; padding: 12px 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > label { font-size: 14px; font-weight: 600; color: var(--color-neutral-700); }
+
+/* Washed image effect */
+.washed { filter: saturate(0.75) contrast(0.92) brightness(1.05); }
+
+/* Layout helpers */
+.container { max-width: 1240px; margin: 0 auto; padding: 0 40px; }
+.section { padding: 64px 40px; max-width: 1240px; margin: 0 auto; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+
+/* Vue calendar styles */
+.vue-calendar { font-family: var(--font-body); color: var(--color-text); }
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.cal-nav-btn {
+  width: 36px; height: 36px; border: 1px solid var(--color-divider);
+  background: transparent; border-radius: 999px; cursor: pointer;
+  font-size: 18px; color: var(--color-text);
+}
+.cal-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.cal-nav-btn:not(:disabled):hover { background: var(--color-accent-100); }
+.cal-month-label { font-family: var(--font-heading); font-size: 18px; }
+.cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 6px; }
+.cal-weekdays span {
+  font-size: 11px; font-weight: 600; color: var(--color-neutral-600);
+  text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 0;
+}
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-cell {
+  aspect-ratio: 1; display: grid; place-items: center;
+  border-radius: 8px; cursor: default; font-size: 14px; transition: background 0.12s;
+}
+.cal-empty { visibility: hidden; }
+.cal-day-num { font-weight: 500; }
+.cal-disabled { color: var(--color-neutral-400); }
+.cal-available { cursor: pointer; }
+.cal-available:hover { background: var(--color-accent-100); }
+.cal-available .cal-day-num { color: var(--color-accent-700); font-weight: 600; }
+.cal-selected { background: var(--color-accent) !important; }
+.cal-selected .cal-day-num { color: var(--color-bg) !important; }
+.cal-timeslots { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--color-divider); }
+.cal-timeslots-title { font-family: var(--font-heading); font-size: 16px; margin: 0 0 12px; }
+.cal-slot-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.cal-slot {
+  padding: 10px 18px; border: 1px solid var(--color-divider);
+  background: transparent; border-radius: 999px; cursor: pointer;
+  font-size: 14px; font-family: inherit; color: var(--color-text); transition: all 0.12s;
+}
+.cal-slot:hover { border-color: var(--color-accent); background: var(--color-accent-100); }
+.cal-slot-selected { background: var(--color-accent) !important; color: var(--color-bg) !important; border-color: var(--color-accent) !important; }
+.cal-hint { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--color-divider); font-size: 14px; color: var(--color-neutral-600); }
+
+/* Responsive layout classes — paired with inline styles in JSX;
+   media queries use !important to override inline grid-template-columns */
+/* Hero banner — full-bleed background image with dark scrim */
+.hero-banner {
+  position: relative; width: 100%; height: 540px;
+  overflow: hidden; background: #211d1a; color: #f5ead8;
+  isolation: isolate;
+}
+.hero-banner-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: -2;
+}
+.hero-banner::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(20,18,17,.78) 0%, rgba(20,18,17,.61) 30%, rgba(20,18,17,.18) 67%, rgba(20,18,17,.02) 100%);
+}
+.hero-banner::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(0deg, rgba(18,15,13,.38), transparent 42%);
+}
+.hero-banner-inner {
+  position: relative; height: 100%; max-width: 1240px;
+  margin: 0 auto; box-sizing: border-box;
+}
+.hero-banner-content {
+  position: relative; height: 100%; padding: 80px;
+  display: flex; flex-direction: column; align-items: flex-start;
+  justify-content: center; gap: 24px;
+  animation: rise .8s cubic-bezier(.2,.75,.25,1) both;
+}
+.hero-banner-tag {
+  margin: 0; padding: 9px 15px;
+  border: 1px solid rgba(245,234,216,.42); border-radius: 999px;
+  background: rgba(245,234,216,.14); color: #f5ead8;
+  font-size: 13px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; line-height: 1;
+}
+.hero-banner h1 {
+  max-width: 650px; margin: 0; color: #f5ead8;
+  font-size: 68px; line-height: 1.04; letter-spacing: -.045em;
+  font-weight: 800;
+  animation: rise .8s .1s cubic-bezier(.2,.75,.25,1) both;
+}
+.hero-banner-desc {
+  max-width: 470px; margin: 0; color: #eadbc7;
+  font-size: 20px; line-height: 1.5; letter-spacing: .005em;
+  animation: rise .8s .18s cubic-bezier(.2,.75,.25,1) both;
+}
+.hero-banner-actions {
+  display: flex; gap: 13px; align-items: center;
+  animation: rise .8s .26s cubic-bezier(.2,.75,.25,1) both;
+}
+.hero-banner-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px; box-sizing: border-box; padding: 0 22px;
+  border: 1px solid rgba(245,234,216,.65); border-radius: 3px;
+  color: #f5ead8; text-decoration: none;
+  font-size: 15px; font-weight: 700; letter-spacing: .02em;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.hero-banner-btn-primary {
+  background: #f5ead8; color: #2a211b; border-color: #f5ead8;
+}
+.hero-banner-btn:hover {
+  background: #fff8ed; color: #211d1a; border-color: #fff8ed;
+  box-shadow: 0 7px 18px rgba(0,0,0,.18);
+}
+.hero-banner-btn-primary:hover { background: #fff8ed; }
+.hero-banner-btn:active { box-shadow: inset 0 2px 5px rgba(0,0,0,.2); }
+.hero-banner-btn:focus-visible { outline: 3px solid #d7a66a; outline-offset: 4px; }
+.hero-banner-info {
+  position: absolute; left: 80px; bottom: 54px;
+  display: flex; gap: 28px; color: #eadbc7;
+  font-size: 14px; line-height: 1.35;
+  animation: rise .8s .34s cubic-bezier(.2,.75,.25,1) both;
+}
+.hero-banner-info span { display: flex; align-items: center; gap: 9px; }
+.hero-banner-info span::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: #d7a66a; box-shadow: 0 0 0 3px rgba(215,166,106,.18);
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-banner-content, .hero-banner h1, .hero-banner-desc,
+  .hero-banner-actions, .hero-banner-info { animation: none; }
+}
+
+.about-teaser-grid { }
+.about-grid { }
+.booking-grid { }
+.form-row-2 { }
+.stats-grid { }
+.footer-grid { }
+.item-card-grid { }
+.header-nav { }
+
+/* Tablet */
+@media (max-width: 1024px) {
+  h1 { font-size: 42px; }
+  h2 { font-size: 32px; }
+  .hero-banner { height: 480px; }
+  .hero-banner-content { padding: 60px 40px; }
+  .hero-banner h1 { font-size: 52px; }
+  .hero-banner-info { left: 40px; bottom: 40px; }
+  .about-teaser-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  h1 { font-size: 32px; }
+  h2 { font-size: 26px; }
+  h3 { font-size: 20px; }
+
+  /* Stack all multi-column grids */
+  .about-teaser-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .about-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .booking-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .form-row-2 { grid-template-columns: 1fr !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .footer-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .item-card-grid { grid-template-columns: 1fr !important; }
+
+  /* Grid collapses */
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+
+  /* Header: wrap nav, reduce padding */
+  .header-nav { flex-wrap: wrap; gap: 2px; }
+  .app-shell > header { padding: 12px 20px !important; }
+  .app-shell > header > a > span:last-child { font-size: 16px !important; }
+
+  /* Section padding */
+  .section { padding: 48px 20px; }
+
+  /* Footer padding */
+  .app-shell > footer { padding: 40px 20px 32px !important; }
+
+  /* Hero banner responsive */
+  .hero-banner { height: 420px; }
+  .hero-banner-content { padding: 40px 24px; gap: 18px; }
+  .hero-banner h1 { font-size: 36px; }
+  .hero-banner-desc { font-size: 17px; }
+  .hero-banner-info { position: relative; left: 0; bottom: 0; padding: 0 24px 24px; flex-wrap: wrap; gap: 14px; }
+  .hero-banner-btn { min-height: 44px; padding: 0 18px; font-size: 14px; }
+
+  /* Reduce all section paddings that use inline styles */
+  .app-main section { padding-left: 20px !important; padding-right: 20px !important; }
+  .app-main section > div { padding-left: 0 !important; padding-right: 0 !important; }
+
+  /* Booking sidebar not sticky on mobile */
+  .booking-grid > aside { position: static !important; }
+
+  /* Item card images */
+  .item-card-grid .washed { min-height: 180px !important; }
+
+  /* Calendar cells slightly smaller */
+  .cal-cell { font-size: 13px; }
+  .cal-weekdays span { font-size: 10px; }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  h1 { font-size: 26px; }
+  .app-shell > header { padding: 10px 16px !important; }
+  .app-shell > header > a > span:last-child > span:first-child { font-size: 15px !important; }
+  .app-shell > header > a > span:last-child > span:last-child { font-size: 9px !important; }
+  .header-nav { gap: 0; }
+  .header-nav a { padding: 6px 10px !important; font-size: 13px !important; }
+  .header-nav a.btn { padding: 8px 14px !important; font-size: 13px !important; margin-left: 4px !important; }
+  .app-main section { padding-left: 16px !important; padding-right: 16px !important; }
+  .hero-banner { height: 380px; }
+  .hero-banner-content { padding: 32px 20px; gap: 14px; }
+  .hero-banner h1 { font-size: 28px; }
+  .hero-banner-desc { font-size: 15px; }
+  .hero-banner-info { padding: 0 20px 20px; gap: 10px; font-size: 12px; }
+  .hero-banner-btn { min-height: 42px; padding: 0 16px; font-size: 13px; }
+}
