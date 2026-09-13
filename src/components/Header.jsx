@@ -20,13 +20,13 @@ export default function Header() {
       <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--color-text)' }}>
         <span style={{
           display: 'grid', placeItems: 'center', width: 42, height: 42,
-          borderRadius: '999px', background: 'var(--color-accent-2-500)',
+          borderRadius: '999px', background: 'linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-2-strong) 100%)',
           color: 'var(--color-neutral-100)', fontFamily: 'var(--font-heading)',
           fontSize: 19, lineHeight: 1,
         }}>S</span>
         <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15 }}>
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: 19 }}>Stellenbosch Adventures</span>
-          <span style={{ fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-neutral-600)' }}>and Tours</span>
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: 18 }}>Stellenbosch Adventures</span>
+          <span style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--color-neutral-600)' }}>Hikes &amp; Tours</span>
         </span>
       </Link>
       <nav style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

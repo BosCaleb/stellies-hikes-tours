@@ -1,18 +1,34 @@
 [
   {
-    "id": "bk-mtscd4vz",
+    "id": "bk-1",
     "type": "hike",
     "itemId": "pniel-sunrise",
     "itemName": "Pniel Ridge Sunrise",
     "date": "2026-09-15",
     "time": "05:30",
-    "name": "Test User",
-    "email": "test@test.com",
+    "name": "Existing Guest",
+    "email": "guest@example.com",
     "phone": "",
     "people": 2,
     "notes": "",
     "price": 900,
     "status": "confirmed",
-    "createdAt": "2026-09-08T07:21:59.039Z"
+    "createdAt": "2026-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "bk-2",
+    "type": "hike",
+    "itemId": "pniel-sunrise",
+    "itemName": "Pniel Ridge Sunrise",
+    "date": "2026-09-15",
+    "time": "06:00",
+    "name": "Second Booking",
+    "email": "second@example.com",
+    "phone": "",
+    "people": 1,
+    "notes": "",
+    "price": 450,
+    "status": "confirmed",
+    "createdAt": "2026-09-01T00:01:00.000Z"
   }
 ]
