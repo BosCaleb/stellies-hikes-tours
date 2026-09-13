@@ -1,0 +1,10 @@
+# Dependencies and build output: install with `npm ci`, build with `npm run build`
+node_modules/
+dist/
+coverage/
+# Ignore .codegraph files
+*.codegraph
+# Ignore .base44 files
+*.base44
+# Ignore docker-* files
+./docker-compose.base44.yml

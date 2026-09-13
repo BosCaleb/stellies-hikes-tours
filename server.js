@@ -39,11 +39,17 @@ function sendJson(res, code, data) {
 function getAvailability(type, id) {
   const item = type === 'hike' ? hikes.find(h => h.id === id) : tours.find(t => t.id === id);
   if (!item) return null;
-  const today = new Date(); today.setHours(0, 0, 0, 0);
+  // Same South African calendar-day logic as generateAvailability in server/index.js:
+  // step through UTC midnights of SA dates so getUTCDay() and toISOString() agree on the day.
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', { timeZone: 'Africa/Johannesburg', year: 'numeric', month: 'numeric', day: 'numeric' })
+      .formatToParts(new Date()).map(p => [p.type, p.value])
+  );
+  const start = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
   const dates = {};
   for (let i = 1; i <= 30; i++) {
-    const d = new Date(today); d.setDate(d.getDate() + i);
-    const dow = d.getDay();
+    const d = new Date(start + i * 24 * 60 * 60 * 1000);
+    const dow = d.getUTCDay();
     if (item.daysOfWeek && !item.daysOfWeek.includes(dow)) continue;
     const key = d.toISOString().slice(0, 10);
     const bookedSlots = bookings

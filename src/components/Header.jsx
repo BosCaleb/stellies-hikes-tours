@@ -1,54 +1,57 @@
-import { Link, NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import Icon from './Icon.jsx';
+
+const NAV_ITEMS = [
+  { to: '/', label: 'Home', end: true },
+  { to: '/hikes', label: 'Hikes' },
+  { to: '/tours', label: 'Tours' },
+  { to: '/about', label: 'Our Story' },
+];
 
 export default function Header() {
-  const navItems = [
-    { to: '/', label: 'Home', end: true },
-    { to: '/hikes', label: 'Hikes' },
-    { to: '/tours', label: 'Tours' },
-    { to: '/about', label: 'Our Story' },
-  ];
+  const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  // Close the mobile menu after navigating.
+  useEffect(() => { setOpen(false); }, [pathname]);
 
   return (
-    <header style={{
-      position: 'sticky', top: 0, zIndex: 20,
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      gap: 24, padding: '16px 40px',
-      background: 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
-      backdropFilter: 'blur(8px)',
-      borderBottom: '1px solid var(--color-divider)',
-    }}>
-      <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--color-text)' }}>
-        <span style={{
-          display: 'grid', placeItems: 'center', width: 42, height: 42,
-          borderRadius: '999px', background: 'linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-2-strong) 100%)',
-          color: 'var(--color-neutral-100)', fontFamily: 'var(--font-heading)',
-          fontSize: 19, lineHeight: 1,
-        }}>S</span>
-        <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15 }}>
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: 18 }}>Stellenbosch Adventures</span>
-          <span style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--color-neutral-600)' }}>Hikes &amp; Tours</span>
-        </span>
-      </Link>
-      <nav style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        {navItems.map(item => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.end}
-            style={({ isActive }) => ({
-              padding: '9px 16px', borderRadius: '999px', fontSize: 15,
-              fontWeight: isActive ? 700 : 500,
-              color: isActive ? 'var(--color-accent-700)' : 'var(--color-text)',
-              background: isActive ? 'var(--color-accent-100)' : 'transparent',
-            })}
-          >
-            {item.label}
-          </NavLink>
-        ))}
-        <Link to="/book" className="btn btn-primary" style={{ marginLeft: 10, padding: '10px 22px', fontSize: 15 }}>
-          Book a Walk
+    <header className="site-header">
+      <div className="container site-header__inner">
+        <Link to="/" className="brand">
+          <span className="brand__mark"><Icon name="mountain" size={20} /></span>
+          <span className="brand__text">
+            <span className="brand__name">Stellenbosch Adventures</span>
+            <span className="brand__tagline">Hikes &amp; Tours · Cape Winelands</span>
+          </span>
         </Link>
-      </nav>
+
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-expanded={open}
+          aria-controls="site-nav"
+          onClick={() => setOpen(isOpen => !isOpen)}
+        >
+          <Icon name={open ? 'x' : 'menu'} size={22} />
+          <span className="visually-hidden">{open ? 'Close menu' : 'Open menu'}</span>
+        </button>
+
+        <nav id="site-nav" className={`site-nav${open ? ' is-open' : ''}`} aria-label="Main">
+          {NAV_ITEMS.map(item => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              className={({ isActive }) => `site-nav__link${isActive ? ' is-active' : ''}`}
+            >
+              {item.label}
+            </NavLink>
+          ))}
+          <Link to="/book" className="btn btn-primary site-nav__cta">Book a walk</Link>
+        </nav>
+      </div>
     </header>
   );
 }
